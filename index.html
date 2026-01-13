@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STEAMtopia MED | Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* ===== BASE STYLES ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Comic Neue", "Segoe UI", Tahoma, Geneva, Verdana,
+          sans-serif;
+      }
+
+      body {
+        background-color: #f0f9ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+      }
+
+      /* ===== LOGIN CONTAINER ===== */
+      .login-container {
+        width: 100%;
+        max-width: 500px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        animation: fadeIn 0.6s ease-out;
+        border: 2px solid #d1e7ff;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .login-header {
+        background: linear-gradient(135deg, #2a6f97 0%, #4fa3d1 100%);
+        padding: 25px 30px;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-header::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(30deg);
+      }
+
+      .login-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .medical-icon {
+        font-size: 32px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .login-subtitle {
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      .login-body {
+        padding: 30px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2a6f97;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #a8d1ff;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+        background-color: #f8fbff;
+      }
+
+      .input-group input:focus,
+      .input-group select:focus {
+        outline: none;
+        border-color: #2a6f97;
+        box-shadow: 0 0 0 3px rgba(42, 111, 151, 0.2);
+      }
+
+      .login-btn {
+        background: linear-gradient(135deg, #2a6f97 0%, #4fa3d1 100%);
+        color: white;
+        border: none;
+        padding: 14px 20px;
+        width: 100%;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .login-btn:hover {
+        background: linear-gradient(135deg, #1a4b6d 0%, #2a6f97 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(42, 111, 151, 0.2);
+      }
+
+      .login-footer {
+        text-align: center;
+        padding: 20px;
+        border-top: 1px solid #d1e7ff;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .login-footer a {
+        color: #2a6f97;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin: 0 10px;
+      }
+
+      .login-footer a:hover {
+        color: #1a4b6d;
+        text-decoration: underline;
+      }
+
+      .login-footer a i {
+        transition: transform 0.3s;
+      }
+
+      .login-footer a:hover i {
+        transform: translateX(3px);
+      }
+
+      .error-message {
+        color: #d9534f;
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 8px;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        display: none;
+        font-weight: 600;
+        animation: shake 0.5s;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-5px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(5px);
+        }
+      }
+
+      /* Modal styles for password recovery and sign up */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
+        border: 2px solid #d1e7ff;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #2a6f97;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        transition: all 0.3s;
+      }
+
+      .close-modal:hover {
+        color: #2a6f97;
+        transform: rotate(90deg);
+      }
+
+      .modal-body p {
+        margin-bottom: 15px;
+        line-height: 1.5;
+        color: #555;
+      }
+
+      .modal-btn {
+        background: linear-gradient(135deg, #2a6f97 0%, #4fa3d1 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .modal-btn:hover {
+        background: linear-gradient(135deg, #1a4b6d 0%, #2a6f97 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(42, 111, 151, 0.2);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .login-container {
+          margin: 0 15px;
+        }
+
+        .login-header {
+          padding: 20px;
+        }
+
+        .login-body {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main login area -->
+    <div class="login-container">
+      <div class="login-header">
+        <div>
+          <h1 class="login-title">
+            <i class="fas fa-stethoscope medical-icon"></i> STEAMtopia MED
+          </h1>
+          <p class="login-subtitle">Login to continue your medical adventure</p>
+        </div>
+      </div>
+
+      <div class="login-body">
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="username"
+              ><i class="fas fa-user-md"></i> Username</label
+            >
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="password"><i class="fas fa-lock"></i> Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="group"
+              ><i class="fas fa-hospital-user"></i> Group</label
+            >
+            <select id="group" required>
+              <option value="">Select your group</option>
+              <option value="Mini Explorers">Mini Explorers (6-8 years)</option>
+              <option value="Young Innovators">
+                Young Innovators (9-11 years)
+              </option>
+              <option value="Junior Scientists">
+                Junior Scientists (12-13 years)
+              </option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="language"
+              ><i class="fas fa-language"></i> Language</label
+            >
+            <select id="language" required>
+              <option value="">Select your language</option>
+              <!--we may add new languages-->
+              <option value="english">English</option>
+              <option value="french">French</option>
+              <option value="arabic">Arabic</option>
+              <!--
+              <option value="spanish">Spanish</option>
+              <option value="telugu">Telugu</option>
+              -->
+            </select>
+          </div>
+
+          <button type="submit" class="login-btn">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+
+          <div id="error" class="error-message"></div>
+        </form>
+      </div>
+
+      <div class="login-footer">
+        <a href="#" id="signUpLink"
+          ><i class="fas fa-user-plus"></i> Sign Up</a
+        >
+        <a href="#" id="forgotPasswordLink"
+          ><i class="fas fa-question-circle"></i> Forgot password?</a
+        >
+      </div>
+    </div>
+
+    <!-- Password Recovery Modal -->
+    <div class="modal" id="passwordRecoveryModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">
+            <i class="fas fa-lock"></i> Password Recovery
+          </h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            If you've forgotten your password, please submit a request using our
+            Help and Support form.
+          </p>
+          <p>
+            Our support team will verify your identity and help you regain
+            access to your account.
+          </p>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSegiBcvtoIgVrqINNcRVI5avBurUXjV-cp6HFfLmbAnggWnEg/viewform?usp=header"
+            target="_blank"
+            class="modal-btn"
+          >
+            <i class="fas fa-external-link-alt"></i> Open The Form
+          </a>
+          <p style="margin-top: 15px; font-size: 13px">
+            <i class="fas fa-info-circle"></i> You'll be redirected to a secure
+            Google Form
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal" id="signUpModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">
+            <i class="fas fa-user-plus"></i> Create an Account
+          </h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            To create a new account, please fill out our registration form.
+          </p>
+          <p>
+            Once submitted, our team will review your application and provide
+            you with login credentials.
+          </p>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdEXAMPLE_SIGNUP_FORM_LINK"
+            target="_blank"
+            class="modal-btn"
+          >
+            <i class="fas fa-external-link-alt"></i> Open Registration Form
+          </a>
+          <p style="margin-top: 15px; font-size: 13px">
+            <i class="fas fa-info-circle"></i> You'll be redirected to a secure
+            Google Form
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Valid credentials database
+      const validUsers = {
+        // Mini Explorers
+        Asma: { password: "1", group: "Mini Explorers", language: "english" },
+        Lili: { password: "2", group: "Mini Explorers", language: "french" },
+        mini3: {
+          password: "explore789",
+          group: "Mini Explorers",
+          language: "arabic",
+        },
+        mini4: {
+          password: "explore012",
+          group: "Mini Explorers",
+          language: "spanish",
+        },
+        mini5: {
+          password: "explore999",
+          group: "Mini Explorers",
+          language: "telugu",
+        },
+        // Young Innovators
+        young1: {
+          password: "innovate123",
+          group: "Young Innovators",
+          language: "english",
+        },
+        young2: {
+          password: "innovate456",
+          group: "Young Innovators",
+          language: "french",
+        },
+        young3: {
+          password: "innovate789",
+          group: "Young Innovators",
+          language: "arabic",
+        },
+        MissRajea: {
+          password: "ALA2025",
+          group: "Young Innovators",
+          language: "english",
+        },
+        young5: {
+          password: "in09",
+          group: "Young Innovators",
+          language: "telugu",
+        },
+
+        // Junior Scientists
+        junior1: {
+          password: "science123",
+          group: "Junior Scientists",
+          language: "english",
+        },
+        junior2: {
+          password: "science456",
+          group: "Junior Scientists",
+          language: "french",
+        },
+        junior3: {
+          password: "science789",
+          group: "Junior Scientists",
+          language: "arabic",
+        },
+        junior4: {
+          password: "science012",
+          group: "Junior Scientists",
+          language: "spanish",
+        },
+        junior5: {
+          password: "science999",
+          group: "Junior Scientists",
+          language: "telugu",
+        },
+      };
+
+      // Group to number mapping for filenames
+      const groupNumbers = {
+        "Mini Explorers": "1",
+        "Young Innovators": "2",
+        "Junior Scientists": "3",
+      };
+
+      // Language to filename prefix mapping we may add new languages
+      const languagePrefixes = {
+        english: "eng",
+        french: "fran",
+        arabic: "arab",
+        spanish: "span",
+        telugu: "tel",
+      };
+
+      // DOM elements
+      const loginForm = document.getElementById("loginForm");
+      const signUpLink = document.getElementById("signUpLink");
+      const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+      const passwordRecoveryModal = document.getElementById(
+        "passwordRecoveryModal"
+      );
+      const signUpModal = document.getElementById("signUpModal");
+      const closeModals = document.querySelectorAll(".close-modal");
+
+      // Form submission handler
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Get form values
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        const group = document.getElementById("group").value;
+        const language = document.getElementById("language").value;
+
+        // Reset error message
+        document.getElementById("error").style.display = "none";
+
+        // Validate all fields
+        if (!username || !password || !group || !language) {
+          showError("Please fill in all fields");
+          return;
+        }
+
+        // Check if user exists
+        if (!validUsers[username]) {
+          showError("Invalid username");
+          return;
+        }
+
+        // Verify credentials
+        const user = validUsers[username];
+        if (
+          user.password !== password ||
+          user.group !== group ||
+          user.language !== language
+        ) {
+          showError("Invalid credentials or group/language mismatch");
+          return;
+        }
+
+        // Create redirect URL
+        const groupNum = groupNumbers[group];
+        const langPrefix = languagePrefixes[language];
+        const redirectUrl = `home${groupNum}${langPrefix}.html`;
+
+        // Add loading state
+        const btn = document.querySelector(".login-btn");
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+        btn.disabled = true;
+
+        // Redirect after delay
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 1500);
+      });
+
+      // Modal handlers
+      signUpLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        signUpModal.style.display = "flex";
+      });
+
+      forgotPasswordLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        passwordRecoveryModal.style.display = "flex";
+      });
+
+      // Close modal handlers
+      closeModals.forEach(closeBtn => {
+        closeBtn.addEventListener("click", function () {
+          passwordRecoveryModal.style.display = "none";
+          signUpModal.style.display = "none";
+        });
+      });
+
+      // Close modal when clicking outside
+      window.addEventListener("click", function (e) {
+        if (e.target === passwordRecoveryModal) {
+          passwordRecoveryModal.style.display = "none";
+        }
+        if (e.target === signUpModal) {
+          signUpModal.style.display = "none";
+        }
+      });
+
+      function showError(message) {
+        const errorDiv = document.getElementById("error");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+      }
+    </script>
+  </body>
+</html>
+
+

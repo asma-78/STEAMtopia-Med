@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guidelines - STEAMtopia MED</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    
+        
+        /* Global Styles */
+        :root {
+            --primary: #2c6aa0;
+            --secondary: #4a8cbb;
+            --accent: #5fa8d3;
+            --light: #f0f7ff;
+            --dark: #1e3a5f;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --info: #17a2b8;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 70px;
+            --transition-speed: 0.3s;
+        }
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fbfe;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: margin-left var(--transition-speed);
+        }
+        
+        /* Header Styles */
+        .top-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: 60px;
+            transition: margin-left var(--transition-speed);
+        }
+        
+        .menu-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: none;
+            transition: transform 0.3s;
+        }
+        
+        .menu-toggle.rotated {
+            transform: rotate(90deg);
+        }
+        
+        .group-indicator {
+           flex: 1;                 /* take up all space between left and right */
+  display: flex;
+  justify-content: center; /* center its content */
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+        .group-indicator i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .right-section {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .right-section a {
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .right-section a:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.25);
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            overflow-y: auto;
+            position: fixed;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            color: #fff; 
+            background: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: width var(--transition-speed), transform var(--transition-speed);
+        }
+        
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+        
+        .sidebar-menu a {
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .logo-container {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            transition: padding var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .logo-container {
+            padding: 15px 10px;
+        }
+        
+        .logo-container img {
+            max-width: 80px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            transition: max-width var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .logo-container img {
+
+display: none;
+
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+            transition: opacity var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .logo {  visibility: hidden;
+
+            
+        }
+        
+        .collapse-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .collapse-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .sidebar.collapsed .collapse-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 15px 0;
+            flex-grow: 1;
+            overflow-x: hidden;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: #e9f2ff;
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            color: var(--primary);
+            transition: margin var(--transition-speed);
+            flex-shrink: 0;
+        }
+        
+        .sidebar.collapsed .sidebar-menu i {
+            margin-right: 0;
+        }
+        
+        .sidebar.collapsed .sidebar-menu span {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .tooltip {
+            position: absolute;
+            left: calc(var(--sidebar-collapsed-width) + 5px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right: 5px solid var(--dark);
+        }
+        
+        .sidebar.collapsed .sidebar-menu a:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .sidebar-footer {
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+        
+        .sidebar.collapsed .sidebar-footer {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            transition: margin-left var(--transition-speed);
+        }
+        
+        .main-content.collapsed {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+        
+        /* Guideline Cards */
+        .guideline-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .guideline-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .guideline-title {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .guideline-title i {
+            margin-right: 10px;
+        }
+        
+        .guideline-content {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .guideline-content h3 {
+            color: var(--secondary);
+            margin: 20px 0 10px;
+            font-size: 1.1rem;
+        }
+        
+        .guideline-content ul,
+        .guideline-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .guideline-content li {
+            margin-bottom: 8px;
+        }
+        
+        .important-note {
+            background-color: #fff9e6;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .contact-info {
+            background-color: #e6f2ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .contact-info h3 {
+            color: var(--primary);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info h3 i {
+            margin-right: 8px;
+        }
+        
+        .contact-info a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .contact-info a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        /* Buttons */
+       .btn {
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+}
+
+.btn i {
+    color: white; /* ensure icons stay visible */
+}
+.btn .btn-primary, .btn-primary:visited    {
+    color: white; /* ensure links inside buttons stay visible */
+}
+.btn-primary {
+    background-color: var(--primary);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    color: white;
+}
+
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+ .menu-toggle {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                width: 80%;
+                max-width: 300px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .main-content.collapsed {
+                margin-left: 0;
+            }
+            
+            .material-header {
+                flex-direction: column;
+            }
+            
+            .material-meta {
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+            
+            
+            .tab-navigation {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            /* Overlay when sidebar is open */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+            
+            /* Hide collapse toggle on mobile */
+            .collapse-toggle {
+                display: none;
+            }
+
+
+
+            .menu-toggle {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                width: 80%;
+                max-width: 300px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            /* Overlay when sidebar is open */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .group-indicator {
+                font-size: 0.9rem;
+            }
+            
+            .right-section a {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .guideline-card {
+                padding: 20px 15px;
+            }
+            
+            .guideline-title {
+                font-size: 1.2rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+            .group-indicator {
+                font-size: 0.8rem;
+            }
+            
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .group-indicator {
+                font-size: 0.9rem;
+            }
+            
+            .right-sectio
+            n a {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .material-card {
+                padding: 15px;
+            }
+            
+            .material-title {
+                font-size: 1.2rem;
+            }
+            
+            .material-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+        @media (max-width: 992px) {
+            .material-content {
+                flex-direction: column;
+            }
+            
+            .material-thumbnail {
+                align-self: flex-start;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    
+    <!-- Overlay for when sidebar is open -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+        <div class="group-indicator">
+            <i class="fas fa-users"></i> Young Innovators (9-11 years)
+        </div>
+        
+        <div class="right-section">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/steam.topia/"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-medium-m"></i></a>
+            <a href="mailto:steamtopia.team@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-container">
+            <img src="/STEAMtopia/logo.png" alt="STEAMtopia MED Logo" class="floating">
+            <h2 class="logo">STEAMtopia MED</h2>
+            <div class="collapse-toggle" id="collapseToggle">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="/STEAMtopia/home2eng.html"><i class="fas fa-home"></i><span> Home</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/LS1eng.html"><i class="fas fa-video"></i> <span>Live Sessions</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/teacher1eng.html"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/MA1eng.html"><i class="fas fa-heartbeat"></i> <span>Medical Adventures</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/SL1eng.html"><i class="fas fa-flask"></i><span> Science Lab</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/TP1eng.html"><i class="fas fa-robot"></i><span> Tech Playground</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/CC1eng.html"><i class="fas fa-paint-brush"></i><span> Creative Corner</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/MG1eng.html"><i class="fas fa-calculator"></i><span> Math Games</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/G1eng.html" class="active"><i class="fas fa-cog"></i><span> Guidelines</span></a></li>
+            <li><a href="/STEAMtopia/grp2eng/SH1eng.html"><i class="fas fa-hand-holding-heart"></i><span> Support & Help</span></a></li>
+        </ul>
+        <!--add this one-->
+        <div class="sidebar-footer">
+            <p>STEAMtopia MED &copy; 2025</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h2><i class="fas fa-info-circle"></i> STEAMtopia MED Guidelines</h2>
+        </div>
+
+        <div class="guideline-card">
+            <div class="guideline-header">
+                <h2 class="guideline-title"><i class="fas fa-graduation-cap"></i> About Our Program</h2>
+            </div>
+            <div class="guideline-content">
+                <p>STEAMtopia MED is an innovative educational platform designed to introduce children aged 6-8 to medical and scientific concepts in a fun and engaging way. Our program combines theoretical learning with hands-on activities to stimulate children's natural curiosity.</p>
+                
+                <div class="important-note">
+                    <p><strong>Important Note:</strong> Our content is designed for education and entertainment purposes only. It does not replace professional medical advice. For any medical concerns, please consult a qualified healthcare professional.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="guideline-card">
+            <div class="guideline-header">
+                <h2 class="guideline-title"><i class="fas fa-user-shield"></i> Safety & Privacy</h2>
+            </div>
+            <div class="guideline-content">
+                <h3>Data Protection</h3>
+                <p>We take your personal data protection very seriously:</p>
+                <ul>
+                    <li>We only collect strictly necessary information</li>
+                    <li>All data is stored securely</li>
+                    <li>We never share your information with third parties without consent</li>
+                </ul>
+                
+                <h3>Online Safety</h3>
+                <p>To ensure a safe experience:</p>
+                <ul>
+                    <li>All online sessions are moderated</li>
+                    <li>Chats and interactions are monitored</li>
+                    <li>We use secure platforms for our virtual sessions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="guideline-card">
+            <div class="guideline-header">
+                <h2 class="guideline-title"><i class="fas fa-calendar-check"></i> Session Participation</h2>
+            </div>
+            <div class="guideline-content">
+                <h3>Preparing for Sessions</h3>
+                <p>To get the most out of our sessions:</p>
+                <ol>
+                    <li>Check your internet connection before the session</li>
+                    <li>Prepare necessary materials (list provided in advance)</li>
+                    <li>Create a quiet, comfortable space for the child</li>
+                    <li>Connect 5 minutes before session start time</li>
+                </ol>
+                
+                <h3>Code of Conduct</h3>
+                <p>We expect all participants to:</p>
+                <ul>
+                    <li>Show respect to teachers and other participants</li>
+                    <li>Engage in active, constructive participation</li>
+                    <li>Use communication tools appropriately</li>
+                    <li>Follow safety instructions during experiments</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="guideline-card">
+            <div class="guideline-header">
+                <h2 class="guideline-title"><i class="fas fa-question-circle"></i> Technical Support</h2>
+            </div>
+            <div class="guideline-content">
+                <h3>Common Issues & Solutions</h3>
+                <ul>
+                    <li><strong>Audio issues:</strong> Check your audio settings and headphone connections</li>
+                    <li><strong>Video problems:</strong> Ensure your camera is enabled in settings</li>
+                    <li><strong>Unstable connection:</strong> Try moving closer to your router or reducing video quality</li>
+                    <li><strong>Accessing materials:</strong> Check your download folder or contact us</li>
+                </ul>
+                
+                <div class="contact-info">
+                    <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+                    <p>For any questions or technical issues:</p>
+                    <ul>
+                        <li>Email: <a href="mailto:steamtopia.team@gmail.com">steamtopia.team@gmail.com</a></li>
+                        <li>Response time: Within 24 business hours</li>
+                    </ul>
+                    <a href="https://docs.google.com/document/d/1QC3SSgq3skh-4UaySyluFjFe-NUSXwl5Dy7V59Sis2A/edit?usp=sharing" class="btn btn-primary" target="_blank" style="color: white;">
+                        <i class="fas fa-file-alt"></i> View Full Guidelines Document
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.dataset.tab;
+
+                    // Deactivate everything
+                    tabBtns.forEach((b) => b.classList.remove('active'));
+                    tabContents.forEach((c) => c.classList.remove('active'));
+
+                    // Activate clicked button and matching content
+                    btn.classList.add('active');
+                    const target = document.getElementById(tabId);
+                    if (target) target.classList.add('active');
+                });
+            });
+
+            // Sidebar toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const overlay = document.getElementById('overlay');
+            const collapseToggle = document.getElementById('collapseToggle');
+            
+            // Check if sidebar state is saved in localStorage
+            const isSidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (isSidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('collapsed');
+                if (collapseToggle) {
+                    collapseToggle.querySelector('i').classList.remove('fa-chevron-left');
+                    collapseToggle.querySelector('i').classList.add('fa-chevron-right');
+                }
+            }
+            
+            if (menuToggle && sidebar && overlay) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    menuToggle.classList.toggle('rotated');
+                });
+                
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    menuToggle.classList.remove('rotated');
+                });
+            }
+            
+            // Sidebar collapse toggle
+            if (collapseToggle && sidebar && mainContent) {
+                collapseToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('collapsed');
+                    
+                    // Change icon direction
+                    const icon = collapseToggle.querySelector('i');
+                    if (sidebar.classList.contains('collapsed')) {
+                        icon.classList.remove('fa-chevron-left');
+                        icon.classList.add('fa-chevron-right');
+                        localStorage.setItem('sidebarCollapsed', 'true');
+                    } else {
+                        icon.classList.remove('fa-chevron-right');
+                        icon.classList.add('fa-chevron-left');
+                        localStorage.setItem('sidebarCollapsed', 'false');
+                    }
+                });
+            }
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 768 && 
+                    sidebar.classList.contains('active') && 
+                    !sidebar.contains(event.target) && 
+                    !menuToggle.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    menuToggle.classList.remove('rotated');
+                }
+            });
+            
+            // Close sidebar when a menu item is clicked on mobile
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        menuToggle.classList.remove('rotated');
+                    }
+                });
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(event) {
+                // Ctrl+B or Cmd+B to toggle sidebar
+                if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
+                    event.preventDefault();
+                    if (window.innerWidth > 768) {
+                        collapseToggle.click();
+                    }
+                }
+                
+                // Escape key to close sidebar on mobile
+                if (event.key === 'Escape' && window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    menuToggle.classList.remove('rotated');
+                }
+            });
+            
+            // External links open in new tab
+            document.querySelectorAll('a[href^="http"]').forEach(link => {
+                if (!link.getAttribute('target')) {
+                    link.setAttribute('target', '_blank');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

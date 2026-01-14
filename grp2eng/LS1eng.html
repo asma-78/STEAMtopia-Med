@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Sessions - STEAMtopia MED</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    
+        
+        /* Global Styles */
+        :root {
+            --primary: #2c6aa0;
+            --secondary: #4a8cbb;
+            --accent: #5fa8d3;
+            --light: #f0f7ff;
+            --dark: #1e3a5f;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --info: #17a2b8;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 70px;
+            --transition-speed: 0.3s;
+        }
+       
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fbfe;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: margin-left var(--transition-speed);
+        }
+        
+        /* Header Styles */
+        .top-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: 60px;
+            transition: margin-left var(--transition-speed);
+        }
+        
+        .menu-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: none;
+            transition: transform 0.3s;
+        }
+        
+        .menu-toggle.rotated {
+            transform: rotate(90deg);
+        }
+        
+        .group-indicator {
+           flex: 1;                 /* take up all space between left and right */
+  display: flex;
+  justify-content: center; /* center its content */
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+        .group-indicator i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .right-section {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .right-section a {
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .right-section a:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.25);
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            overflow-y: auto;
+            position: fixed;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            color: #fff; 
+            background: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: width var(--transition-speed), transform var(--transition-speed);
+        }
+        
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+        
+        .sidebar-menu a {
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .logo-container {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            transition: padding var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .logo-container {
+            padding: 15px 10px;
+        }
+        
+        .logo-container img {
+            max-width: 80px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            transition: max-width var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .logo-container img {
+
+display: none;
+
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+            transition: opacity var(--transition-speed);
+        }
+        
+        .sidebar.collapsed .logo {  visibility: hidden;
+
+            
+        }
+        
+        .collapse-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .collapse-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .sidebar.collapsed .collapse-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 15px 0;
+            flex-grow: 1;
+            overflow-x: hidden;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: #e9f2ff;
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            color: var(--primary);
+            transition: margin var(--transition-speed);
+            flex-shrink: 0;
+        }
+        
+        .sidebar.collapsed .sidebar-menu i {
+            margin-right: 0;
+        }
+        
+        .sidebar.collapsed .sidebar-menu span {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .tooltip {
+            position: absolute;
+            left: calc(var(--sidebar-collapsed-width) + 5px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right: 5px solid var(--dark);
+        }
+        
+        .sidebar.collapsed .sidebar-menu a:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .sidebar-footer {
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+        }
+        
+        .sidebar.collapsed .sidebar-footer {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            transition: margin-left var(--transition-speed);
+        }
+        
+        .main-content.collapsed {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+        
+        /* Sessions Banner */
+        .sessions-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .sessions-banner h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sessions-banner h1 i {
+            margin-right: 10px;
+        }
+        
+        .sessions-banner p {
+            font-size: 1.1rem;
+            max-width: 70%;
+            opacity: 0.9;
+        }
+        
+        .banner-icons {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            opacity: 0.15;
+        }
+        
+        /* Upcoming Sessions */
+        .upcoming-sessions {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .upcoming-sessions h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+        
+        .upcoming-sessions h2 i {
+            margin-right: 10px;
+        }
+        
+        .session-list {
+            list-style: none;
+        }
+        
+        .session-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .session-item:last-child {
+            border-bottom: none;
+        }
+        
+        .session-date {
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            min-width: 70px;
+            text-align: center;
+            margin-right: 15px;
+        }
+        
+        .session-date.live {
+            background: #ff4d4d;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .session-date .day {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: block;
+            line-height: 1.2;
+        }
+        
+        .session-date .month {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            display: block;
+        }
+        
+        .session-info {
+            flex-grow: 1;
+        }
+        
+        .session-info h4 {
+            color: var(--secondary);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .session-info p {
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .session-info i {
+            margin-right: 5px;
+        }
+        
+        .session-join {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .session-join:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        /* Recorded Sessions */
+        .recorded-sessions {
+            margin-bottom: 30px;
+        }
+        
+        .recorded-sessions h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+        }
+        
+        .recorded-sessions h2 i {
+            margin-right: 10px;
+        }
+        
+        /* Sessions Grid */
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .session-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .session-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .session-thumbnail {
+            height: 160px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .session-details {
+            padding: 20px;
+        }
+        
+        .session-details h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .session-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .session-meta span {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .session-meta i {
+            margin-right: 5px;
+        }
+        
+        .session-description {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sessions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                width: 80%;
+                max-width: 300px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .sessions-banner p {
+                max-width: 100%;
+            }
+            
+            .banner-icons {
+                display: none;
+            }
+            
+            .session-item {
+                flex-wrap: wrap;
+            }
+            
+            .session-join {
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            /* Overlay when sidebar is open */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 10px 15px;
+            }
+            
+            .group-indicator {
+                font-size: 0.9rem;
+            }
+            
+            .right-section a {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .sessions-banner {
+                padding: 20px;
+            }
+            
+            .sessions-banner h1 {
+                font-size: 1.8rem;
+            }
+            
+            .upcoming-sessions {
+                padding: 20px;
+            }
+            
+            .session-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .session-date {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .session-info {
+                margin-bottom: 10px;
+            }
+            
+            .sessions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    
+    <!-- Overlay for when sidebar is open -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+        <div class="group-indicator">
+            <i class="fas fa-users"></i> Young Innovators (9-11 years)
+        </div>
+        
+        <div class="right-section">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/steam.topia/"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-medium-m"></i></a>
+            <a href="mailto:steamtopia.team@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-container">
+            <img src="/STEAMtopia/logo.png" alt="STEAMtopia MED Logo" class="floating">
+            <h2 class="logo">STEAMtopia MED</h2>
+            <div class="collapse-toggle" id="collapseToggle">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="https://asma-78.github.io/STEAMtopia-Med/home2eng.html" target="_self"><i class="fas fa-home"></i><span> Home</span></a></li>
+            <li><a href="https://asma-78.github.io/STEAMtopia-Med/grp2eng/LS1eng.html" class="active"><i class="fas fa-video"></i> <span>Live Sessions</span> <div class="tooltip">Live Sessions</div></a></li>
+            <li><a href="https://asma-78.github.io/STEAMtopia-Med/grp2eng/teacher1eng.html" target="_self"><i class="fas fa-chalkboard-teacher"></i> <span>Teachers</span> <div class="tooltip">Teachers</div></a></li>
+            <li><a href="/https://asma-78.github.ioSTEAMtopia-Med/grp2eng/CC1eng.html" target="_self"><i class="fas fa-flask"></i> <span>Science Lab</span> <div class="tooltip">Science Lab</div></a></li>
+            <li><a href="https://asma-78.github.io/STEAMtopia-Med/grp2eng/G1eng.html" target="_self"><i class="fas fa-cog"></i> <span>Guidelines</span> <div class="tooltip">Guidelines</div></a></li>
+            <li><a href="https://asma-78.github.io/STEAMtopia-Med/grp2eng/SH1eng.html" target="_self"><i class="fas fa-hand-holding-heart"></i> <span>Support & Help</span> <div class="tooltip">Support & Help</div></a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <p>STEAMtopia MED &copy; 2025</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Sessions Banner -->
+        <div class="sessions-banner">
+            <h1><i class="fas fa-video"></i> Live Learning Sessions</h1>
+            <p>Join our interactive live sessions with doctors, scientists, and special guests!</p>
+            <div class="banner-icons">
+                <i class="fas fa-video"></i>
+            </div>
+        </div>
+
+        <!-- Current Live Sessions -->
+        <div class="upcoming-sessions">
+            <h2><i class="fas fa-broadcast-tower"></i> Happening Now</h2>
+            <ul class="session-list">
+                <li class="session-item">
+                    <div class="session-date live">
+                        <span class="day">LIVE</span>
+                        <span class="month">NOW</span>
+                    </div>
+                    <div class="session-info">
+                        <h4>Meet a Real Surgeon!</h4>
+                        <p><i class="fas fa-user-md"></i> Dr. Sarah Johnson | <i class="fas fa-clock"></i> 45 min remaining</p>
+                    </div>
+                    <a href="#" class="session-join">Join Now</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Upcoming Sessions -->
+        <div class="upcoming-sessions">
+            <h2><i class="fas fa-calendar-alt"></i> Upcoming Sessions</h2>
+          <h1> Sorry! there is no session for now</h1>
+         <!-- <ul class="session-list">
+                <li class="session-item">
+                    <div class="session-date">
+                        <span class="day">15</span>
+                        <span class="month">OCT</span>
+                    </div>
+                    <div class="session-info">
+                        <h4>How the Heart Works</h4>
+                        <p><i class="fas fa-user-md"></i> Dr. Michael Chen | <i class="fas fa-clock"></i> 4:00 PM</p>
+                    </div>
+                    <a href="#" class="session-join">Remind Me</a>
+                </li>
+                <li class="session-item">
+                    <div class="session-date">
+                        <span class="day">18</span>
+                        <span class="month">OCT</span>
+                    </div>
+                    <div class="session-info">
+                        <h4>Science of Germs</h4>
+                        <p><i class="fas fa-microscope"></i> Microbiologist Lisa Park | <i class="fas fa-clock"></i> 3:30 PM</p>
+                    </div>
+                    <a href="#" class="session-join">Remind Me</a>
+                </li>
+                <li class="session-item">
+                    <div class="session-date">
+                        <span class="day">22</span>
+                        <span class="month">OCT</span>
+                    </div>
+                    <div class="session-info">
+                        <h4>Virtual Hospital Tour</h4>
+                        <p><i class="fas fa-hospital"></i> Nurse James Wilson | <i class="fas fa-clock"></i> 11:00 AM</p>
+                    </div>
+                    <a href="#" class="session-join">Remind Me</a>
+                </li>
+            </ul>-->
+        </div>
+        <!-- Recorded Sessions 
+        <div class="recorded-sessions">
+            <h2><i class="fas fa-video"></i> The Newest Recorded Sessions</h2>
+            <div class="sessions-grid">
+                <div class="session-card">
+                    <div class="session-thumbnail">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="session-details">
+                        <h3>Understanding Our Lungs</h3>
+                        <div class="session-meta">
+                            <span><i class="fas fa-user-md"></i> Dr. Emma Roberts</span>
+                            <span><i class="fas fa-clock"></i> 32 min</span>
+                        </div>
+                        <p class="session-description">Learn how our lungs work and why breathing is so important!</p>
+                        <a href="#" class="btn btn-primary">Watch Now</a>
+                    </div>
+                </div>
+
+                <div class="session-card">
+                    <div class="session-thumbnail">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="session-details">
+                        <h3>Brain Power!</h3>
+                        <div class="session-meta">
+                            <span><i class="fas fa-user-md"></i> Neurologist Dr. Patel</span>
+                            <span><i class="fas fa-clock"></i> 28 min</span>
+                        </div>
+                        <p class="session-description">Discover how your brain controls everything you do!</p>
+                        <a href="#" class="btn btn-primary">Watch Now</a>
+                    </div>
+                </div>
+
+                <div class="session-card">
+                    <div class="session-thumbnail">
+                        <i class="fas fa-bone"></i>
+                    </div>
+                    <div class="session-details">
+                        <h3>Super Strong Bones</h3>
+                        <div class="session-meta">
+                            <span><i class="fas fa-user-md"></i> Dr. Carlos Mendez</span>
+                            <span><i class="fas fa-clock"></i> 25 min</span>
+                        </div>
+                        <p class="session-description">Why bones are stronger than steel and how to keep them healthy!</p>
+                        <a href="#" class="btn btn-primary">Watch Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.dataset.tab;
+
+                    // Deactivate everything
+                    tabBtns.forEach((b) => b.classList.remove('active'));
+                    tabContents.forEach((c) => c.classList.remove('active'));
+
+                    // Activate clicked button and matching content
+                    btn.classList.add('active');
+                    const target = document.getElementById(tabId);
+                    if (target) target.classList.add('active');
+                });
+            });
+
+            // Sidebar toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            const overlay = document.getElementById('overlay');
+            const collapseToggle = document.getElementById('collapseToggle');
+            
+            // Check if sidebar state is saved in localStorage
+            const isSidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (isSidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('collapsed');
+                if (collapseToggle) {
+                    collapseToggle.querySelector('i').classList.remove('fa-chevron-left');
+                    collapseToggle.querySelector('i').classList.add('fa-chevron-right');
+                }
+            }
+            
+            if (menuToggle && sidebar && overlay) {
+                menuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    menuToggle.classList.toggle('rotated');
+                });
+                
+                overlay.addEventListener('click', function() {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    menuToggle.classList.remove('rotated');
+                });
+            }
+            
+            // Sidebar collapse toggle
+            if (collapseToggle && sidebar && mainContent) {
+                collapseToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('collapsed');
+                    
+                    // Change icon direction
+                    const icon = collapseToggle.querySelector('i');
+                    if (sidebar.classList.contains('collapsed')) {
+                        icon.classList.remove('fa-chevron-left');
+                        icon.classList.add('fa-chevron-right');
+                        localStorage.setItem('sidebarCollapsed', 'true');
+                    } else {
+                        icon.classList.remove('fa-chevron-right');
+                        icon.classList.add('fa-chevron-left');
+                        localStorage.setItem('sidebarCollapsed', 'false');
+                    }
+                });
+            }
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 768 && 
+                    sidebar.classList.contains('active') && 
+                    !sidebar.contains(event.target) && 
+                    !menuToggle.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    menuToggle.classList.remove('rotated');
+                }
+            });
+            
+            // Close sidebar when a menu item is clicked on mobile
+            const menuItems = document.querySelectorAll('.sidebar-menu a');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        menuToggle.classList.remove('rotated');
+                    }
+                });
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(event) {
+                // Ctrl+B or Cmd+B to toggle sidebar
+                if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
+                    event.preventDefault();
+                    if (window.innerWidth > 768) {
+                        collapseToggle.click();
+                    }
+                }
+                
+                // Escape key to close sidebar on mobile
+                if (event.key === 'Escape' && window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    menuToggle.classList.remove('rotated');
+                }
+            });
+        });  
+    </script>
+</body>
+</html>

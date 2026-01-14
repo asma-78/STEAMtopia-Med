@@ -658,6 +658,25 @@ display: none;
                 grid-template-columns: 1fr;
             }
         }
+        
+.no-session {
+  text-align: center;
+  padding: 40px;
+  background: #f5f7fa;
+  border-radius: 12px;
+}
+
+
+
+.no-session p {
+  font-weight: bold;
+  color: #ff7a00;
+}
+
+.no-session span {
+  color: #555;
+  font-size: 14px;
+}
     </style>
 </head>
 <body>
@@ -720,9 +739,13 @@ display: none;
                 <i class="fas fa-video"></i>
             </div>
         </div>
+        <div class="no-session">
+            <p>No live sessions available right now.</p>
+            <span>Coming soon — stay tuned!</span>
+        </div>
 
         <!-- Current Live Sessions -->
-        <div class="upcoming-sessions">
+       <!-- <div class="upcoming-sessions">
             <h2><i class="fas fa-broadcast-tower"></i> Happening Now</h2>
             <ul class="session-list">
                 <li class="session-item">
@@ -737,13 +760,12 @@ display: none;
                     <a href="#" class="session-join">Join Now</a>
                 </li>
             </ul>
-        </div>
+        </div>-->
 
         <!-- Upcoming Sessions -->
-        <div class="upcoming-sessions">
+        <!--<div class="upcoming-sessions">
             <h2><i class="fas fa-calendar-alt"></i> Upcoming Sessions</h2>
-          <h1> Sorry! there is no session for now</h1>
-         <!-- <ul class="session-list">
+          <ul class="session-list">
                 <li class="session-item">
                     <div class="session-date">
                         <span class="day">15</span>

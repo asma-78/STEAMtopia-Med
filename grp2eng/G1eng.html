@@ -404,7 +404,8 @@ display: none;
 .btn i {
     color: white; /* ensure icons stay visible */
 }
-.btn .btn-primary, .btn-primary:visited    {
+/* Fixed selector: ensure .btn-primary is targeted correctly */
+.btn-primary, .btn-primary:visited {
     color: white; /* ensure links inside buttons stay visible */
 }
 .btn-primary {
@@ -476,43 +477,6 @@ display: none;
             .collapse-toggle {
                 display: none;
             }
-
-
-
-            .menu-toggle {
-                display: block;
-            }
-            
-            .sidebar {
-                transform: translateX(-100%);
-                width: 80%;
-                max-width: 300px;
-            }
-            
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-            }
-            
-            /* Overlay when sidebar is open */
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 998;
-            }
-            
-            .overlay.active {
-                display: block;
-            }
         }
         
         @media (max-width: 480px) {
@@ -553,8 +517,7 @@ display: none;
                 font-size: 0.9rem;
             }
             
-            .right-sectio
-            n a {
+            .right-section a {
                 width: 30px;
                 height: 30px;
                 font-size: 0.9rem;
@@ -647,10 +610,10 @@ display: none;
                 <h2 class="guideline-title"><i class="fas fa-graduation-cap"></i> About Our Program</h2>
             </div>
             <div class="guideline-content">
-                <p>STEAMtopia MED is an innovative educational platform designed to introduce children aged 6-8 to medical and scientific concepts in a fun and engaging way. Our program combines theoretical learning with hands-on activities to stimulate children's natural curiosity.</p>
+                <p>STEAMtopia MED is an innovative educational platform designed to introduce children aged 6-8 to medical and scientific concepts in a fun and engaging way. Our program combines theor[...]
                 
                 <div class="important-note">
-                    <p><strong>Important Note:</strong> Our content is designed for education and entertainment purposes only. It does not replace professional medical advice. For any medical concerns, please consult a qualified healthcare professional.</p>
+                    <p><strong>Important Note:</strong> Our content is designed for education and entertainment purposes only. It does not replace professional medical advice. For any medical concerns[...]
                 </div>
             </div>
         </div>
@@ -833,7 +796,7 @@ display: none;
                 // Ctrl+B or Cmd+B to toggle sidebar
                 if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
                     event.preventDefault();
-                    if (window.innerWidth > 768) {
+                    if (window.innerWidth > 768 && collapseToggle) {
                         collapseToggle.click();
                     }
                 }

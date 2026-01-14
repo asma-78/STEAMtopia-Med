@@ -7,6 +7,7 @@
   <meta charset="UTF-8" />
    <style>
        /* Global Styles */
+      /* Global Styles */
         :root {
             --primary: #2c6aa0;
             --secondary: #4a8cbb;
@@ -64,13 +65,13 @@
         }
         
         .group-indicator {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
+           flex: 1;                 /* take up all space between left and right */
+  display: flex;
+  justify-content: center; /* center its content */
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
 
         .group-indicator i {
             margin-right: 8px;
@@ -149,7 +150,9 @@
         }
         
         .sidebar.collapsed .logo-container img {
-            display: none;
+
+display: none;
+
         }
         
         .logo {
@@ -159,8 +162,9 @@
             transition: opacity var(--transition-speed);
         }
         
-        .sidebar.collapsed .logo {  
-            visibility: hidden;
+        .sidebar.collapsed .logo {  visibility: hidden;
+
+            
         }
         
         .collapse-toggle {
@@ -294,6 +298,16 @@
         
         .main-content.collapsed {
             margin-left: var(--sidebar-collapsed-width);
+        }
+        
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .tab-content.active {
+            display: block;
         }
         
         /* Welcome Banner */
@@ -629,7 +643,6 @@
             z-index: 0;
         }
         
-        
         /* Responsive Styles */
         @media (max-width: 992px) {
             .activity-cards, .medical-grid, .fun-facts {
@@ -638,14 +651,6 @@
         }
         
         @media (max-width: 768px) {
-          .menu-toggle {
-        position: relative;
-        z-index: 999;
-    }
-            .menu-toggle {
-                display: block;
-            }
-            
             .hamburger-menu {
                 display: flex;
             }
@@ -663,10 +668,6 @@
             .main-content {
                 margin-left: 0;
                 padding: 20px;
-            }
-            
-            .main-content.collapsed {
-                margin-left: 0;
             }
             
             .welcome-banner h1 {
@@ -691,11 +692,6 @@
             
             .overlay.active {
                 display: block;
-            }
-            
-            /* Hide collapse toggle on mobile */
-            .collapse-toggle {
-                display: none;
             }
         }
         
@@ -739,7 +735,7 @@
                 height: 30px;
                 font-size: 0.9rem;
             }
-        }  
+        }
    </style>
 </head>
 <body>

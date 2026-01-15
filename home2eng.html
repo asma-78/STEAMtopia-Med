@@ -74,19 +74,17 @@
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-            overflow-y: auto;
-            position: fixed;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.08);
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: var(--sidebar-width);
-            color: #fff; 
-            background: white;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
-            transition: width var(--transition-speed), transform var(--transition-speed);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: var(--sidebar-width);
+      background: white;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+
+      transform: translateX(0);
+      transition: transform var(--transition);
+      z-index: 1000;
         }
         
         .sidebar.collapsed {

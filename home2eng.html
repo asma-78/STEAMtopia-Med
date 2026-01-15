@@ -1,276 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Welcome to STEAMtopia MED</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="home.css">
   <style>
-    :root {
-      --primary: #2c6aa0;
-      --secondary: #4a8cbb;
-      --accent: #5fa8d3;
-      --dark: #1e3a5f;
-      --sidebar-width: 250px;
-      --transition: 0.3s;
-    }
-
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-    }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-    body {
-      background: #f8fbfe;
-      min-height: 100vh;
-    }
+/* TOP BAR */
+   .topbar {
+    height: 60px;
+    background: #1e1e2f;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
 
-    /* ===== TOP BAR ===== */
-    .top-bar {
-      height: 60px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: white;
+    cursor: pointer;
+}
 
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 220px;
+    height: calc(100vh - 60px);
+    background: #2a2a40;
+    padding: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 15px;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    margin-top: 60px;
+    margin-left: 220px;
+    padding: 25px;
+}
+
+/* OVERLAY */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 900;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
     .menu-toggle {
-      font-size: 1.4rem;
-      cursor: pointer;
-      display: none;
+        display: block;
     }
 
-    .group-indicator {
-      flex: 1;
-      text-align: center;
-      font-weight: 500;
-    }
-
-    .right-section {
-      display: flex;
-      gap: 10px;
-    }
-
-    .right-section a {
-      color: white;
-      background: rgba(255,255,255,0.15);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-    }
-
-    /* ===== SIDEBAR ===== */
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: var(--sidebar-width);
-      background: white;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-      transform: translateX(0);
-      transition: transform var(--transition);
-      z-index: 999;
+        transform: translateX(-100%);
+        transition: 0.3s;
+        width: 80%;
+        max-width: 280px;
+        z-index: 1001;
     }
 
-    .logo-container {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      padding: 20px;
-      text-align: center;
+    .sidebar.active {
+        transform: translateX(0);
     }
 
-    .logo-container img {
-      width: 70px;
-      border-radius: 50%;
-      margin-bottom: 10px;
-    }
-
-    .sidebar-menu {
-      list-style: none;
-      padding: 15px 0;
-    }
-
-    .sidebar-menu a {
-      display: flex;
-      align-items: center;
-      padding: 12px 20px;
-      text-decoration: none;
-      color: var(--dark);
-      font-weight: 500;
-    }
-
-    .sidebar-menu a i {
-      margin-right: 12px;
-      color: var(--primary);
-    }
-
-    .sidebar-menu a:hover,
-    .sidebar-menu a.active {
-      background: #e9f2ff;
-      border-left: 4px solid var(--primary);
-    }
-
-    /* ===== MAIN CONTENT ===== */
     .main-content {
-      margin-left: var(--sidebar-width);
-      padding: 25px;
-      transition: margin-left var(--transition);
-    }
-
-    .welcome-banner {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .activity-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .activity-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-
-    .activity-card h3 {
-      color: var(--primary);
-      margin-bottom: 10px;
-    }
-
-    /* ===== OVERLAY ===== */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      z-index: 998;
-      pointer-events: none;
+        margin-left: 0;
     }
 
     .overlay.active {
-      display: block;
-      pointer-events: auto;
-    }
-
-    /* ===== MOBILE ===== */
-    @media (max-width: 768px) {
-      .menu-toggle {
         display: block;
-      }
-
-      .sidebar {
-        transform: translateX(-100%);
-        width: 80%;
-        max-width: 300px;
-      }
-
-      .sidebar.active {
-        transform: translateX(0);
-      }
-
-      .main-content {
-        margin-left: 0;
-      }
     }
-  </style>
+}
+</style>
 </head>
-
 <body>
 
-  <!-- Overlay -->
-  <div class="overlay" id="overlay"></div>
+    <!-- TOP BAR -->
+    <header class="topbar">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <h1>STEAMpark</h1>
+    </header>
 
-  <!-- Header -->
-  <header class="top-bar">
-    <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
-    <div class="group-indicator">
-      <i class="fas fa-users"></i> Young Innovators (9–11 years)
-    </div>
-    <div class="right-section">
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.instagram.com/steam.topia/"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-linkedin-in"></i></a>
-      <a href="mailto:steamtopia.team@gmail.com"><i class="fas fa-envelope"></i></a>
-    </div>
-  </header>
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <a href="#">Home</a>
+        <a href="#">Groups</a>
+        <a href="#">Live Sessions</a>
+        <a href="#">STEAM Subjects</a>
+        <a href="#">Teachers</a>
+        <a href="#">Support</a>
+    </nav>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="logo-container">
-      <img src="logo.png" alt="STEAMtopia MED">
-      <h2>STEAMtopia MED</h2>
-    </div>
+    <!-- OVERLAY (mobile) -->
+    <div class="overlay" id="overlay"></div>
 
-    <ul class="sidebar-menu">
-      <li><a class="active" href="#"><i class="fas fa-home"></i> Home</a></li>
-      <li><a href="#"><i class="fas fa-video"></i> Live Sessions</a></li>
-      <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Teachers</a></li>
-      <li><a href="#"><i class="fas fa-flask"></i> Science Lab</a></li>
-      <li><a href="#"><i class="fas fa-cog"></i> Guidelines</a></li>
-      <li><a href="#"><i class="fas fa-hand-holding-heart"></i> Support & Help</a></li>
-    </ul>
-  </aside>
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <h2>Welcome to STEAMpark 👋</h2>
+        <p>
+            Learning science, technology, engineering, arts, and math —
+            in a fun, interactive, and inclusive way.
+        </p>
+    </main>
 
-  <!-- Main -->
-  <main class="main-content">
-    <div class="welcome-banner">
-      <h1>Welcome, Future Doctor 👩‍⚕️👨‍⚕️</h1>
-      <p>Explore medicine, science, and health through fun projects!</p>
-    </div>
+    <script src="home.js">const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 
-    <div class="activity-cards">
-      <div class="activity-card">
-        <h3><i class="fas fa-heart"></i> Heart Explorer</h3>
-        <p>Learn how your heart works like a powerful pump.</p>
-      </div>
-      <div class="activity-card">
-        <h3><i class="fas fa-dna"></i> DNA Detective</h3>
-        <p>Discover the secret code inside every cell.</p>
-      </div>
-      <div class="activity-card">
-        <h3><i class="fas fa-lungs"></i> Lung Lab</h3>
-        <p>Build a model to understand breathing.</p>
-      </div>
-    </div>
-  </main>
+menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
+});
 
-  <!-- JS -->
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggle = document.getElementById('menuToggle');
-    const overlay = document.getElementById('overlay');
-
-    toggle.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-      overlay.classList.toggle('active');
-    });
-
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-    });
-  </script>
-
+overlay.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+});
+</script>
 </body>
 </html>
+

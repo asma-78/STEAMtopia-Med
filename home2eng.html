@@ -4,8 +4,9 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Welcome to STEAMtopia MED</title>
-  <meta charset="UTF-8" />
-   <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
        /* Global Styles */
       /* Global Styles */
         :root {
@@ -735,12 +736,20 @@ display: none;
                 height: 30px;
                 font-size: 0.9rem;
             }
+          .menu-toggle {
+  display: block;
+  color: white;
+  font-size: 1.4rem;
+}
+
         }
    </style>
 </head>
 <body>
+<div class="overlay" id="overlay">
   <!--we never change this-->
 <header class="top-bar">
+  <i class="fas fa-bars menu-toggle" id="menuToggle"></i>
   <div class="group-indicator">
     <i class="fas fa-users"></i> Young Innovators (9-11 years)
   </div>
@@ -936,9 +945,23 @@ display: none;
       </div>
     </div>
   </div>
+</div>
 </main>
 
 <script>
+const sidebar = document.querySelector('.sidebar');
+const toggle = document.getElementById('menuToggle');
+const overlay = document.getElementById('overlay');
+
+toggle.addEventListener('click', () => {
+  sidebar.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('active');
+  overlay.classList.remove('active');
+});
 document.addEventListener('DOMContentLoaded', function() {
   // This would be where you add interactive functionality
   // For example:

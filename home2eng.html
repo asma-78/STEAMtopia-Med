@@ -32,46 +32,67 @@
 
     /* ===== TOP BAR ===== */
     .top-bar {
-      height: 60px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: 60px;
+            transition: margin-left var(--transition-speed);
+        }
+        
+        .menu-toggle {
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: none;
+            transition: transform 0.3s;
+        }
+        
+        .menu-toggle.rotated {
+            transform: rotate(90deg);
+        }
+        
+        .group-indicator {
+           flex: 1;                 /* take up all space between left and right */
+  display: flex;
+  justify-content: center; /* center its content */
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
 
-    .menu-toggle {
-      font-size: 1.4rem;
-      cursor: pointer;
-      display: none;
-    }
-
-    .group-indicator {
-      flex: 1;
-      text-align: center;
-      font-weight: 500;
-    }
-
-    .right-section {
-      display: flex;
-      gap: 10px;
-    }
-
-    .right-section a {
-      color: white;
-      background: rgba(255,255,255,0.15);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-    }
-
+        .group-indicator i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .right-section {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .right-section a {
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .right-section a:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.25);
+        } 
     /* ===== SIDEBAR ===== */
     .sidebar {
             overflow-y: auto;

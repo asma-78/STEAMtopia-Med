@@ -553,98 +553,19 @@ display: none;
   <!-- JS -->
   <script>
     // Sidebar toggle
-            const menuToggle = document.querySelector('.menu-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            const mainContent = document.querySelector('.main-content');
-            const overlay = document.getElementById('overlay');
-            const collapseToggle = document.getElementById('collapseToggle');
-            
-            // Check if sidebar state is saved in localStorage
-            const isSidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-            if (isSidebarCollapsed) {
-                sidebar.classList.add('collapsed');
-                mainContent.classList.add('collapsed');
-                if (collapseToggle) {
-                    collapseToggle.querySelector('i').classList.remove('fa-chevron-left');
-                    collapseToggle.querySelector('i').classList.add('fa-chevron-right');
-                }
-            }
-            
-            if (menuToggle && sidebar && overlay) {
-                menuToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
-                    overlay.classList.toggle('active');
-                    menuToggle.classList.toggle('rotated');
-                });
-                
-                overlay.addEventListener('click', function() {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                    menuToggle.classList.remove('rotated');
-                });
-            }
-            
-            // Sidebar collapse toggle
-            if (collapseToggle && sidebar && mainContent) {
-                collapseToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('collapsed');
-                    mainContent.classList.toggle('collapsed');
-                    
-                    // Change icon direction
-                    const icon = collapseToggle.querySelector('i');
-                    if (sidebar.classList.contains('collapsed')) {
-                        icon.classList.remove('fa-chevron-left');
-                        icon.classList.add('fa-chevron-right');
-                        localStorage.setItem('sidebarCollapsed', 'true');
-                    } else {
-                        icon.classList.remove('fa-chevron-right');
-                        icon.classList.add('fa-chevron-left');
-                        localStorage.setItem('sidebarCollapsed', 'false');
-                    }
-                });
-            }
-            
-            // Close sidebar when clicking outside on mobile
-            document.addEventListener('click', function(event) {
-                if (window.innerWidth <= 768 && 
-                    sidebar.classList.contains('active') && 
-                    !sidebar.contains(event.target) && 
-                    !menuToggle.contains(event.target)) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                    menuToggle.classList.remove('rotated');
-                }
-            });
-            
-            // Close sidebar when a menu item is clicked on mobile
-            const menuItems = document.querySelectorAll('.sidebar-menu a');
-            menuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.remove('active');
-                        overlay.classList.remove('active');
-                        menuToggle.classList.remove('rotated');
-                    }
-                });
-            });
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', function(event) {
-                // Ctrl+B or Cmd+B to toggle sidebar
-                if ((event.ctrlKey || event.metaKey) && event.key === 'b') {
-                    event.preventDefault();
-                    if (window.innerWidth > 768 && collapseToggle) {
-                        collapseToggle.click();
-                    }
-                }
-                
-                // Escape key to close sidebar on mobile
-                if (event.key === 'Escape' && window.innerWidth <= 768 && sidebar.classList.contains('active')) {
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                    menuToggle.classList.remove('rotated');
-                }
-            });
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('menuToggle');
+    const overlay = document.getElementById('overlay');
+
+    toggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+
   </script>
 
 </body>
